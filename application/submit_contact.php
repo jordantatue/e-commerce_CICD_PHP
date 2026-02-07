@@ -60,7 +60,7 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] === 0) {
 <body>
     <div class="container">
 
-        <?php require_once(__DIR__ . '/header.php'); ?>
+        <?php require_once(__DIR__ . '/../base/header.php'); ?>
         <h1>Message bien reçu !</h1>
 
         <div class="card">

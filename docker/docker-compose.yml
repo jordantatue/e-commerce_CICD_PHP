@@ -1,17 +1,19 @@
-version: '3.8'
-
 services:
-  production:
-    build: .
+  dev:
+    build:
+      context: ..
+      dockerfile: docker/dockerfile
     container_name: php-apache-container
     ports:
       - "80:80"
-    volumes:
-      - .:/var/www/html
-      - ./ssh:/root/.ssh
     environment:
       GIT_USER_NAME: "JordanTatue"
       GIT_USER_EMAIL: "tatuejordan@gmail.com"
+      MYSQL_HOST: "db"
+      MYSQL_PORT: "3306"
+      MYSQL_NAME: "fooddb"
+      MYSQL_USER: "tpweb"
+      MYSQL_PASSWORD: "TyTy1234"
     depends_on:
       - db
 
@@ -24,6 +26,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql-data:/var/lib/mysql
+      - ../sql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

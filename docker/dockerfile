@@ -4,21 +4,21 @@ FROM php:apache
 # Installer des extensions PHP
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Installer Node.js
-RUN apt-get update && apt-get install -y gnupg
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
-
-# Installer les dépendances nécessaires pour générer une clé SSH
-RUN apt-get update && apt-get install -y openssh-client
+# Installer Node.js + dependances utiles (curl/ssh)
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends gnupg curl ca-certificates openssh-client \
+  && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+  && apt-get install -y --no-install-recommends nodejs \
+  && rm -rf /var/lib/apt/lists/*
 
 # Générer une clé SSH (remplacer 'your_email@example.com' par votre email)
-RUN ssh-keygen -t rsa -b 4096 -C "tatuefom@3il.fr" -f /root/.ssh/id_rsa -N ''
-RUN eval "$(ssh-agent -s)" ssh-add ~/.ssh/id_rsa
+# RUN ssh-keygen -t rsa -b 4096 -C "tatuejordan@gmail.com" -f /root/.ssh/id_rsa -N ''
+# RUN eval "$(ssh-agent -s)" ssh-add ~/.ssh/id_rsa
 
 # Copier les fichiers de l'application dans le conteneur
-COPY . /var/www/html
+COPY . /var/www/html/
 
 # Donner les permissions appropriées
 RUN chown -R www-data:www-data /var/www/html
+
 EXPOSE 80

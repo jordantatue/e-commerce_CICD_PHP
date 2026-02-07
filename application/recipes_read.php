@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-require_once(__DIR__ . '/configuration/mysql.php');
-require_once(__DIR__ . '/databaseconnect.php');
+require_once(__DIR__ . '/../configuration/databaseconnect.php');
 
 /**
  * On ne traite pas les super globales provenant de l'utilisateur directement,
@@ -74,7 +73,7 @@ foreach ($recipeWithComments as $comment) {
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php require_once(__DIR__ . '/header.php'); ?>
+        <?php require_once(__DIR__ . '/../base/header.php'); ?>
         <h1><?php echo($recipe['title']); ?></h1>
         <div class="row">
             <article class="col">
@@ -111,6 +110,6 @@ foreach ($recipeWithComments as $comment) {
             <?php require_once(__DIR__ . '/comments_create.php'); ?>
         <?php endif; ?>
     </div>
-    <?php require_once(__DIR__ . '/footer.php'); ?>
+    <?php require_once(__DIR__ . '/../base/footer.php'); ?>
 </body>
 </html>

@@ -3,9 +3,8 @@
 session_start();
 
 require_once(__DIR__ . '/isConnect.php');
-require_once(__DIR__ . '/configuration/mysql.php');
-require_once(__DIR__ . '/databaseconnect.php');
-require_once(__DIR__ . '/functions.php');
+require_once(__DIR__ . '/../configuration/databaseconnect.php');
+require_once(__DIR__ . '/../variables/functions.php');
 
 /**
  * On ne traite pas les super globales provenant de l'utilisateur directement,
@@ -23,4 +22,4 @@ $deleteRecipeStatement->execute([
     'id' => (int)$postData['id'],
 ]);
 
-redirectToUrl('index.php');
+redirectToUrl('/home.php');

@@ -19,7 +19,7 @@ require_once(__DIR__ . '/isConnect.php');
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php require_once(__DIR__ . '/header.php'); ?>
+        <?php require_once(__DIR__ . '/../base/header.php'); ?>
 
         <h1>Ajouter une recette</h1>
         <form action="recipes_post_create.php" method="POST">
@@ -36,6 +36,6 @@ require_once(__DIR__ . '/isConnect.php');
         </form>
     </div>
 
-    <?php require_once(__DIR__ . '/footer.php'); ?>
+    <?php require_once(__DIR__ . '/../base/footer.php'); ?>
 </body>
 </html>

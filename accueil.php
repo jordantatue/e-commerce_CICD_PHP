@@ -7,37 +7,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simply Recipes || Final</title>
     <!-- favicon -->
-    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/final/assets/favicon.ico" type="image/x-icon" />
     <!-- normalize -->
-    <link rel="stylesheet" href="./final/css/normalize.css" />
+    <link rel="stylesheet" href="/final/css/normalize.css" />
     <!-- font-awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     />
     <!-- main css -->
-    <link rel="stylesheet" href="./final/css/main.css"/>
+    <link rel="stylesheet" href="/final/css/main.css"/>
   </head>
   <body>
     <!-- nav  -->
     <nav class="navbar">
       <div class="nav-center">
         <div class="nav-header">
-          <a href="index.html" class="nav-logo">
-            <img src="./assets/logo.svg" alt="simply recipes" />
+          <a href="/final/index.html" class="nav-logo">
+            <img src="/final/assets/logo.svg" alt="simply recipes" />
           </a>
           <button class="nav-btn btn">
             <i class="fas fa-align-justify"></i>
           </button>
         </div>
         <div class="nav-links">
-          <a href="index.html" class="nav-link"> home </a>
-          <a href="about.html" class="nav-link"> about </a>
-          <a href="tags.html" class="nav-link"> tags </a>
-          <a href="recipes.html" class="nav-link"> recipes </a>
+          <a href="/final/index.html" class="nav-link"> home </a>
+          <a href="/final/about.html" class="nav-link"> about </a>
+          <a href="/final/tags.html" class="nav-link"> tags </a>
+          <a href="/final/recipes.html" class="nav-link"> recipes </a>
 
           <div class="nav-link contact-link">
-            <a href="contact.html" class="btn"> contact </a>
+            <a href="/final/contact.html" class="btn"> contact </a>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
           <!-- single recipe -->
           <a href="single-recipe.html" class="recipe">
             <img
-              src="./assets/recipes/recipe-1.jpeg"
+              src="/final/assets/recipes/recipe-1.jpeg"
               class="img recipe-img"
               alt=""
             />
@@ -83,7 +83,7 @@
           <!-- single recipe -->
           <a href="single-recipe.html" class="recipe">
             <img
-              src="./assets/recipes/recipe-2.jpeg"
+              src="/final/assets/recipes/recipe-2.jpeg"
               class="img recipe-img"
               alt=""
             />
@@ -94,7 +94,7 @@
           <!-- single recipe -->
           <a href="single-recipe.html" class="recipe">
             <img
-              src="./assets/recipes/recipe-3.jpeg"
+              src="/final/assets/recipes/recipe-3.jpeg"
               class="img recipe-img"
               alt=""
             />
@@ -105,7 +105,7 @@
           <!-- single recipe -->
           <a href="single-recipe.html" class="recipe">
             <img
-              src="./assets/recipes/recipe-4.jpeg"
+              src="/final/assets/recipes/recipe-4.jpeg"
               class="img recipe-img"
               alt=""
             />

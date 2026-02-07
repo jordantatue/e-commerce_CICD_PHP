@@ -9,4 +9,4 @@ session_unset();
 session_destroy();
 
 // Rediriger l'utilisateur vers la page d'accueil
-redirectToUrl('login.php');
+redirectToUrl('/login/login.php');

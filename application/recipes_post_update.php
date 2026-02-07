@@ -2,8 +2,7 @@
 session_start();
 
 require_once(__DIR__ . '/isConnect.php');
-require_once(__DIR__ . '/configuration/mysql.php');
-require_once(__DIR__ . '/databaseconnect.php');
+require_once(__DIR__ . '/../configuration/databaseconnect.php');
 
 /**
  * On ne traite pas les super globales provenant de l'utilisateur directement,
@@ -51,7 +50,7 @@ $insertRecipeStatement->execute([
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php require_once(__DIR__ . '/header.php'); ?>
+        <?php require_once(__DIR__ . '/../base/header.php'); ?>
         <h1>Recette modifiée avec succès !</h1>
 
         <div class="card">
@@ -63,6 +62,6 @@ $insertRecipeStatement->execute([
             </div>
         </div>
     </div>
-    <?php require_once(__DIR__ . '/footer.php'); ?>
+    <?php require_once(__DIR__ . '/../base/footer.php'); ?>
 </body>
 </html>

@@ -2,8 +2,7 @@
 session_start();
 
 require_once(__DIR__ . '/isConnect.php');
-require_once(__DIR__ . '/configuration/mysql.php');
-require_once(__DIR__ . '/databaseconnect.php');
+require_once(__DIR__ . '/../configuration/databaseconnect.php');
 
 /**
  * On ne traite pas les super globales provenant de l'utilisateur directement,
@@ -40,7 +39,7 @@ $recipe = $retrieveRecipeStatement->fetch(PDO::FETCH_ASSOC);
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php require_once(__DIR__ . '/header.php'); ?>
+        <?php require_once(__DIR__ . '/../base/header.php'); ?>
         <h1>Mettre à jour <?php echo($recipe['title']); ?></h1>
         <form action="recipes_post_update.php" method="POST">
             <div class="mb-3 visually-hidden">
@@ -61,6 +60,6 @@ $recipe = $retrieveRecipeStatement->fetch(PDO::FETCH_ASSOC);
         <br />
     </div>
 
-    <?php require_once(__DIR__ . '/footer.php'); ?>
+    <?php require_once(__DIR__ . '/../base/footer.php'); ?>
 </body>
 </html>
