@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-require_once(__DIR__ . '/../variables/functions.php');
-
-// ------------------------------------------------------------
-// Unit tests (lightweight, no external libraries)
-// ------------------------------------------------------------
+require_once(__DIR__ . '/../app/bootstrap.php');
 
 function check(bool $condition, string $message): void
 {
@@ -15,37 +11,30 @@ function check(bool $condition, string $message): void
     }
 }
 
-function test(string $name, callable $fn): void
+function test(string $name, callable $callback): void
 {
     echo "[unit] {$name}... ";
-    $fn();
+    $callback();
     echo "OK\n";
 }
 
-test('displayAuthor() known/unknown', function (): void {
-    $users = [
-        ['email' => 'a@example.com', 'full_name' => 'Alice', 'age' => 30],
-        ['email' => 'b@example.com', 'full_name' => 'Bob', 'age' => 42],
-    ];
-    check(displayAuthor('b@example.com', $users) === 'Bob(42 ans)', 'displayAuthor known user');
-    check(displayAuthor('missing@example.com', $users) === 'Auteur inconnu', 'displayAuthor unknown user');
+test('h escapes html', function (): void {
+    check(h('<b>x</b>') === '&lt;b&gt;x&lt;/b&gt;', 'h should escape html');
 });
 
-test('isValidRecipe()', function (): void {
-    check(isValidRecipe(['is_enabled' => 1]) === true, 'isValidRecipe enabled');
-    check(isValidRecipe(['is_enabled' => 0]) === false, 'isValidRecipe disabled');
-    check(isValidRecipe([]) === false, 'isValidRecipe missing flag');
+test('validateLoginInput detects bad data', function (): void {
+    $result = validateLoginInput(['email' => 'x', 'password' => '']);
+    check(count($result['errors']) === 2, 'login validation should return two errors');
 });
 
-test('getRecipes()', function (): void {
-    $recipes = [
-        ['recipe_id' => 1, 'is_enabled' => 1],
-        ['recipe_id' => 2, 'is_enabled' => 0],
-        ['recipe_id' => 3], // missing is_enabled -> false
-    ];
-    $valid = getRecipes($recipes);
-    check(count($valid) === 1, 'getRecipes count');
-    check($valid[0]['recipe_id'] === 1, 'getRecipes keeps enabled');
+test('validateRecipeInput accepts valid payload', function (): void {
+    $result = validateRecipeInput(['title' => 'T', 'recipe' => 'R']);
+    check($result['errors'] === [], 'recipe validation should pass');
+});
+
+test('validateCommentInput bounds review', function (): void {
+    $result = validateCommentInput(['recipe_id' => '2', 'review' => '8', 'comment' => 'ok']);
+    check(count($result['errors']) === 1, 'comment validation should fail for invalid review');
 });
 
 echo "unit ok\n";

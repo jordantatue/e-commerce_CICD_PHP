@@ -6,20 +6,27 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Docker]
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Python deps (requirements.txt)
+        shell: bash
+        run: |
+          if [ -f requirements.txt ]; then
+            python3 -m pip install --upgrade pip
+            python3 -m pip install -r requirements.txt
+          fi
+    
       - name: Unit tests (PHP assert)
-        run: docker run --rm -v "$PWD:/app" -w /app php:8.3-cli php -d assert.exception=1 tests/unit.php
-
+        run: docker run --rm -v "$PWD:/app" -w /app php:8.3-cli php -d assert.exception=1 [unit.php](http://_vscodecontentref_/1)
+    
       - name: Build and start stack
-        run: docker compose -f docker/docker-compose.yml up -d --build
-
+        run: docker compose -f [docker-compose.yml](http://_vscodecontentref_/2) up -d --build
+    
       - name: E2E tests
-        run: bash tests/e2e.sh
-
+        run: bash [e2e.sh](http://_vscodecontentref_/3)
+    
       - name: Shutdown
         if: always()
-        run: docker compose -f docker/docker-compose.yml down -v
-
+        run: docker compose -f [docker-compose.yml](http://_vscodecontentref_/4) down -v

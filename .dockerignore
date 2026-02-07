@@ -1,12 +1,11 @@
-.git/
+.git
+.github
 .gitignore
-
-# Never bake SSH keys into the image
-ssh/
-
-# Docker tooling isn't needed at runtime
-docker/
-
-# Local/editor noise
-**/.DS_Store
-**/Thumbs.db
+.vscode
+.idea
+node_modules
+vendor
+storage/uploads
+*.log
+.env
+.env.*
