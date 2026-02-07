@@ -9,6 +9,10 @@ mysql_root() {
   docker exec -e MYSQL_PWD=root mysql-container mysql -uroot "$@"
 }
 
+mysql_root_tcp() {
+  docker exec -e MYSQL_PWD=root mysql-container mysql -h127.0.0.1 -P3306 -uroot "$@"
+}
+
 mysqladmin_root() {
   docker exec -e MYSQL_PWD=root mysql-container mysqladmin -uroot "$@"
 }
@@ -25,8 +29,11 @@ expect_code() {
 wait_mysql() {
   for _ in {1..60}; do
     if mysqladmin_root ping --silent >/dev/null 2>&1; then
-      if mysql_root -N -B -e 'SELECT 1' >/dev/null 2>&1; then
-        return 0
+      if mysql_root_tcp -N -B -e 'SELECT 1' >/dev/null 2>&1; then
+        tables_count="$(mysql_root_tcp -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='fooddb' AND table_name IN ('users','recipes','comments')" 2>/dev/null || true)"
+        if [[ "${tables_count}" == "3" ]]; then
+          return 0
+        fi
       fi
     fi
     sleep 1
@@ -38,14 +45,6 @@ wait_mysql() {
 
 echo "[e2e] wait mysql"
 wait_mysql
-
-echo "[e2e] reseed db"
-for _ in {1..20}; do
-  if docker exec -i -e MYSQL_PWD=root mysql-container mysql -uroot < database/init.sql >/dev/null 2>&1; then
-    break
-  fi
-  sleep 1
-done
 
 echo "[e2e] basic routes"
 expect_code "http://localhost/" "302"

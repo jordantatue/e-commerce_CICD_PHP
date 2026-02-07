@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    container_name: php-apache-container
+    ports:
+      - "80:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: fooddb
+      DB_USER: app_user
+      DB_PASSWORD: app_password
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.4
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fooddb
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  mysql-data:

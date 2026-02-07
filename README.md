@@ -5,7 +5,7 @@ Application de recettes en PHP natif avec authentification, CRUD de recettes, co
 ## Demarrage rapide (Docker)
 
 ```bash
-docker compose -f docker/docker-compose.yml up -d --build
+docker compose -f docker-compose.yml up -d --build
 ```
 
 URL de l'application: `http://localhost/`
@@ -13,7 +13,7 @@ URL de l'application: `http://localhost/`
 Arret:
 
 ```bash
-docker compose -f docker/docker-compose.yml down -v
+docker compose -f docker-compose.yml down -v
 ```
 
 ## Variables DB
@@ -37,9 +37,9 @@ docker run --rm -v "$PWD:/app" -w /app php:8.3-cli php -d assert.exception=1 tes
 E2E:
 
 ```bash
-docker compose -f docker/docker-compose.yml up -d --build
+docker compose -f docker-compose.yml up -d --build
 bash tests/e2e.sh
-docker compose -f docker/docker-compose.yml down -v
+docker compose -f docker-compose.yml down -v
 ```
 
 ## Structure
