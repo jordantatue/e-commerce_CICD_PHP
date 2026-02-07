@@ -1,5 +1,5 @@
 services:
-  dev:
+  app:
     build:
       context: ..
       dockerfile: docker/dockerfile
@@ -7,37 +7,25 @@ services:
     ports:
       - "80:80"
     environment:
-      GIT_USER_NAME: "JordanTatue"
-      GIT_USER_EMAIL: "tatuejordan@gmail.com"
-      MYSQL_HOST: "db"
-      MYSQL_PORT: "3306"
-      MYSQL_NAME: "fooddb"
-      MYSQL_USER: "tpweb"
-      MYSQL_PASSWORD: "TyTy1234"
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: fooddb
+      DB_USER: app_user
+      DB_PASSWORD: app_password
     depends_on:
       - db
 
   db:
-    image: mysql:latest
+    image: mysql:8.4
     container_name: mysql-container
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fooddb
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
     volumes:
       - mysql-data:/var/lib/mysql
-      - ../sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin-container
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-    depends_on:
-      - db
+      - ../database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
 volumes:
   mysql-data:

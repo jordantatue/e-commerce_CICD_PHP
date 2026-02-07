@@ -1,24 +1,11 @@
-# Utiliser l'image PHP avec Apache
-FROM php:apache
+FROM php:8.3-apache
 
-# Installer des extensions PHP
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Installer Node.js + dependances utiles (curl/ssh)
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends gnupg curl ca-certificates openssh-client \
-  && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-  && apt-get install -y --no-install-recommends nodejs \
-  && rm -rf /var/lib/apt/lists/*
-
-# Générer une clé SSH (remplacer 'your_email@example.com' par votre email)
-# RUN ssh-keygen -t rsa -b 4096 -C "tatuejordan@gmail.com" -f /root/.ssh/id_rsa -N ''
-# RUN eval "$(ssh-agent -s)" ssh-add ~/.ssh/id_rsa
-
-# Copier les fichiers de l'application dans le conteneur
+COPY docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY . /var/www/html/
 
-# Donner les permissions appropriées
-RUN chown -R www-data:www-data /var/www/html
+RUN mkdir -p /var/www/html/storage/uploads \
+    && chown -R www-data:www-data /var/www/html
 
 EXPOSE 80
