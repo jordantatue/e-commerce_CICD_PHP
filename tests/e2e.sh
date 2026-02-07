@@ -5,6 +5,27 @@ http_code() {
   docker exec php-apache-container sh -lc "curl -s -o /dev/null -w '%{http_code}' \"$1\""
 }
 
+root_pass() {
+  local pass
+  pass="$(docker inspect mysql-container --format '{{range .Config.Env}}{{println .}}{{end}}' | sed -n 's/^MYSQL_ROOT_PASSWORD=//p' | head -n 1)"
+  if [[ -z "${pass}" ]]; then
+    pass="root"
+  fi
+  echo "${pass}"
+}
+
+mysql_root() {
+  local pass
+  pass="$(root_pass)"
+  docker exec -e MYSQL_PWD="${pass}" mysql-container mysql -uroot "$@"
+}
+
+mysqladmin_root() {
+  local pass
+  pass="$(root_pass)"
+  docker exec -e MYSQL_PWD="${pass}" mysql-container mysqladmin -uroot "$@"
+}
+
 expect_code() {
   local url="$1"
   local expected="$2"
@@ -16,8 +37,10 @@ expect_code() {
 
 wait_mysql() {
   for _ in {1..60}; do
-    if docker exec mysql-container mysqladmin ping -uroot -proot --silent >/dev/null 2>&1; then
-      return 0
+    if mysqladmin_root ping --silent >/dev/null 2>&1; then
+      if mysql_root -N -B -e 'SELECT 1' >/dev/null 2>&1; then
+        return 0
+      fi
     fi
     sleep 1
   done
@@ -30,7 +53,8 @@ echo "[e2e] wait mysql"
 wait_mysql
 
 echo "[e2e] seed db"
-cat sql/init.sql | docker exec -i mysql-container mysql -uroot -proot >/dev/null
+echo "[e2e] mysql root password found: $(root_pass | sed 's/./*/g')"
+cat sql/init.sql | mysql_root >/dev/null
 
 echo "[e2e] basic routes"
 expect_code "http://localhost/" "302"
@@ -54,7 +78,7 @@ test "$code" = "200"
 docker exec php-apache-container sh -lc "grep -q \"Recette\" /tmp/create.html"
 
 echo "[e2e] view created recipe"
-recipe_id="$(docker exec mysql-container mysql -uroot -proot -N -B -e 'SELECT MAX(recipe_id) FROM fooddb.recipes')"
+recipe_id="$(mysql_root -N -B -e 'SELECT MAX(recipe_id) FROM fooddb.recipes')"
 echo "[e2e] recipe_id=${recipe_id}"
 test -n "$recipe_id"
 docker exec php-apache-container sh -lc "curl -s -o /tmp/read.html -b /tmp/cookies.txt http://localhost/application/recipes_read.php?id=${recipe_id}"
