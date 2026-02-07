@@ -1,0 +1,24 @@
+# Ce projet est en PHP (pas de dépendances Python via pip).
+# Ce fichier liste uniquement les prérequis strictement utiles pour exécuter et tester le projet.
+
+# -----------------------
+# Recommandé (via Docker)
+# -----------------------
+docker>=24
+docker-compose>=2
+
+# Utiles pour lancer `tests/e2e.sh` en local
+bash
+curl
+
+# ------------------------------------
+# Alternative (sans Docker, en local)
+# ------------------------------------
+php>=8.3
+apache>=2.4
+mysql>=8.0
+
+# Extensions PHP nécessaires
+ext-pdo
+ext-pdo_mysql
+

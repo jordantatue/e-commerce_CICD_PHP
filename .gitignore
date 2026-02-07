@@ -1,0 +1,37 @@
+## -----------------------------
+## Fichiers d'instructions agent
+## -----------------------------
+AGENTS.md
+agent.md
+**/AGENTS.md
+**/agent.md
+**/*INSTRUCTIONS*.md
+
+## -----------------------------
+## Secrets / variables locales
+## -----------------------------
+.env
+.env.*
+!.env.example
+
+## -----------------------------
+## Dépendances / builds
+## -----------------------------
+vendor/
+node_modules/
+
+## -----------------------------
+## Cache / logs
+## -----------------------------
+*.log
+.phpunit.cache/
+.php_cs.cache
+.php-cs-fixer.cache
+
+## -----------------------------
+## IDE / OS
+## -----------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
