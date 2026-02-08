@@ -1,62 +1,66 @@
-# e-commerce_CICD_PHP (simple PHP + MySQL app)
+# Application de Recettes
 
-Application de recettes en PHP natif avec authentification, CRUD de recettes, commentaires, contact et upload de capture.
+Application web de partage de recettes avec système d'authentification, gestion de recettes, commentaires et formulaire de contact.
 
-## Demarrage rapide (Docker)
+## Fonctionnalités
 
-```bash
-docker compose -f docker-compose.yml up -d --build
+- **Authentification** : inscription et connexion des utilisateurs
+- **Recettes** : création, lecture, modification et suppression de recettes
+- **Commentaires** : ajout de commentaires sur les recettes
+- **Contact** : formulaire de contact avec upload de fichiers
+- **Uploads** : gestion d'images pour les recettes
+
+## Structure du projet
+```
+├── public/           # Pages accessibles (login, recettes, contact...)
+├── app/
+│   ├── Core/        # Logique centralisée (DB, auth, validation...)
+│   └── Views/       # Templates et layout
+├── config/          # Configuration de l'application
+├── database/        # Schéma et données initiales
+├── storage/         # Fichiers uploadés
+└── tests/           # Tests unitaires et E2E
 ```
 
-URL de l'application: `http://localhost/`
+## Installation et exécution
 
-Arret:
+### Prérequis
+- Docker et Docker Compose
 
+### Démarrage
 ```bash
-docker compose -f docker-compose.yml down -v
+# Lancer l'application
+docker compose up -d --build
+
+# Accéder à l'application
+http://localhost/
 ```
 
-## Variables DB
+### Arrêt
+```bash
+docker compose down -v
+```
 
-Le code lit ces variables d'environnement:
+### Tests
 
-- `DB_HOST` (defaut: `db` en docker, sinon `127.0.0.1`)
-- `DB_PORT` (defaut: `3306`)
-- `DB_NAME` (defaut: `fooddb`)
-- `DB_USER` (defaut: `app_user`)
-- `DB_PASSWORD` (defaut: `app_password`)
-
-## Tests
-
-Unit:
-
+**Tests unitaires :**
 ```bash
 docker run --rm -v "$PWD:/app" -w /app php:8.3-cli php -d assert.exception=1 tests/unit.php
 ```
 
-E2E:
-
+**Tests E2E :**
 ```bash
-docker compose -f docker-compose.yml up -d --build
+docker compose up -d --build
 bash tests/e2e.sh
-docker compose -f docker-compose.yml down -v
+docker compose down -v
 ```
 
-## Structure
+## Configuration
 
-- `public/`: routes HTTP (login, recettes, commentaires, contact)
-- `app/Core/`: logique centralisee (DB, auth, validation, helpers, uploads)
-- `app/Views/layout/`: layout commun
-- `config/`: configuration
-- `database/init.sql`: schema + seed
-- `docker/`: Dockerfile, compose et vhost Apache
-- `storage/uploads/`: fichiers uploades
-- `tests/`: unit + e2e
+Les variables d'environnement sont définies dans `docker-compose.yml` :
+- Base de données (host, port, nom, user, password)
+- Configuration PHP et Apache
 
-## Flux principal
+---
 
-1. `/` redirige vers `/auth/login.php`
-2. Login reussi -> `/recipes/home.php`
-3. Depuis home: lecture, creation, edition, suppression de recette
-4. Depuis detail recette: ajout de commentaire
-5. Formulaire contact: validation + upload optionnel
+**Stack technique** : PHP 8.3, MySQL 8.0, Apache
